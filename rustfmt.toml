@@ -1,0 +1,4 @@
+#binop_separator = "Front"
+#brace_style = "PreferSameLine"
+tab_spaces = 2
+
