@@ -14,7 +14,7 @@ mod permutation {
   }
 
   impl Permutation {
-    pub fn new(&self, array: std::cell::RefCell<Vec<u32>>) -> Self {
+    pub fn new<T>(&self, array: &[T]) -> Self {
       let return_permutation = Permutation {
         permutation: self.create_permutation(array),
         length: self.length(),
@@ -29,8 +29,12 @@ mod permutation {
     //
     // }
 
-    fn create_permutation(&self, array: std::cell::RefCell<Vec<u32>>) -> Vec<u32> {
-      return array.borrow().to_vec();
+    fn create_permutation<T>(&self, array: &[T]) -> Vec<u32> {
+        let clone_permutation: Vec<u32>;
+        for i in array {
+            clone_permutation.push(*i.);
+        }
+      return clone_permutation; 
     }
 
     fn length(&self) -> usize {
