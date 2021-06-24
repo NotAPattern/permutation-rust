@@ -10,16 +10,21 @@ pub struct Permutation {
 }
 
 impl Permutation {
-  pub fn new<T>(&self, array: &[usize]) -> Self {
-    let return_permutation = Permutation {
-      permutation: self.create_permutation(array),
-      length: self.permutation.len(),
-      inversion: self.inversion(),
+  pub fn new(array: &[usize]) -> Self {
+    let mut return_permutation = Permutation {
+      permutation: vec![0],
+      length: 0,
       parity: false,
-      number_of_cycles: self.cycles(),
+      number_of_cycles: 0,
+      inversion: 0,
     };
+    return_permutation.permutation = return_permutation.create_permutation(array);
+    return_permutation.length = return_permutation.length();
+    return_permutation.inversion = return_permutation.inversion();
+    return_permutation.parity = false;
+    return_permutation.number_of_cycles = return_permutation.cycles();
 
-    return return_permutation;
+    return_permutation
   }
 
   fn create_permutation(&self, array: &[usize]) -> Vec<usize> {
@@ -33,8 +38,8 @@ impl Permutation {
   fn inversion(&self) -> usize {
     let mut inversion = 0;
     for i in 0..(self.permutation.len() - 1) {
-      for j in (i + 1)..(self.permutation.len() - 1) {
-        if (self.permutation[i] < self.permutation[j]) {
+      for j in (i + 1)..(self.permutation.len()) {
+        if self.permutation[i] > self.permutation[j] {
           inversion += 1;
         }
       }
