@@ -92,4 +92,25 @@ mod tests {
 
     assert_eq!(array.to_vec(), *perm.permutation());
   }
+
+  #[test]
+  fn test_invesrion() {
+    let test1 = 5;
+    let test2 = 1;
+    let perm1 = Permutation::new(&[1, 5, 3, 4, 2, 6]);
+    let perm2 = Permutation::new(&[2, 1, 3, 4, 5]);
+    assert_eq!(test1, perm1.inversion());
+    assert_eq!(test2, perm2.inversion());
+  }
+
+  #[test]
+  fn test_parity() {
+    let test1 = 1;
+    let test2 = -1;
+    let perm1 = Permutation::new(&[1, 5, 4, 3, 2, 6]);
+    let perm2 = Permutation::new(&[2, 1, 3, 4, 5]);
+
+    assert_eq!(test1, perm1.parity());
+    assert_eq!(test2, perm2.parity());
+  }
 }

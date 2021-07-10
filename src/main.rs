@@ -10,4 +10,5 @@ fn main() {
   let perm2 = Permutation::new(&vector);
   println!("{}", perm1.inversion());
   println!("{}", perm2.inversion());
+  println!("{}", perm2.parity());
 }
