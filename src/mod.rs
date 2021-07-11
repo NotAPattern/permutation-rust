@@ -73,6 +73,35 @@ impl Permutation {
   }
 }
 
+impl Iterator for Permutation {
+  type Item = Vec<usize>;
+
+  fn next(&mut self) -> Option<Self::Item> {
+    // Narayana algorithm
+    let mut min;
+    let length = self.permutation.len();
+    for i in (0..(length - 2)).rev() {
+      if self.permutation[i] < self.permutation[i + 1] {
+        min = i + 1;
+        for j in (i+1)..(length - 1) {
+          if (self.permutation[j] < self.permutation[min])
+            && (self.permutation[j] > self.permutation[i])
+          {
+            min = j;
+          }
+        }
+        self.permutation.swap(i, min);
+        self.permutation[(i + 1)..(length - 1)].reverse();
+        // TODO: Change `&mut Vec<usize>` or `Vec<usize>.clone()`?
+        //break;
+        return Some(self.permutation.clone())
+      }
+    }
+    None
+    //Some(self.permutation.clone())
+  }
+}
+
 #[cfg(test)]
 mod tests {
   //pub mod Permutation;
