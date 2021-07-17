@@ -106,14 +106,14 @@ impl Iterator for Permutation {
   }
 }
 
-impl IntoIterator for Permutation {
+/*impl IntoIterator for Permutation {
   type Item = Vec<usize>;
   type IntoIter = Permutation;
 
   fn into_iter(self) -> Self::IntoIter {
     self
   }
-}
+}*/
 
 #[cfg(test)]
 mod tests {
