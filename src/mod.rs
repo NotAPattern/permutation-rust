@@ -60,6 +60,10 @@ impl Permutation {
     return_permutation
   }
 
+  pub fn length(&self) -> usize {
+    self.length
+  }
+
   pub fn permutation(&self) -> &Vec<usize> {
     &self.permutation
   }
@@ -80,10 +84,11 @@ impl Iterator for Permutation {
     // Narayana algorithm
     let mut min;
     let length = self.permutation.len();
-    for i in (0..(length - 2)).rev() {
+    for i in (0..(length - 1)).rev() {
       if self.permutation[i] < self.permutation[i + 1] {
         min = i + 1;
-        for j in (i+1)..(length - 1) {
+        // + 1 ? Nope!
+        for j in (i + 1)..length {
           if (self.permutation[j] < self.permutation[min])
             && (self.permutation[j] > self.permutation[i])
           {
@@ -91,14 +96,22 @@ impl Iterator for Permutation {
           }
         }
         self.permutation.swap(i, min);
-        self.permutation[(i + 1)..(length - 1)].reverse();
+        &self.permutation[(i + 1)..length].reverse();
         // TODO: Change `&mut Vec<usize>` or `Vec<usize>.clone()`?
-        //break;
-        return Some(self.permutation.clone())
+        return Some(self.permutation.clone());
       }
     }
     None
     //Some(self.permutation.clone())
+  }
+}
+
+impl IntoIterator for Permutation {
+  type Item = Vec<usize>;
+  type IntoIter = Permutation;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self
   }
 }
 
