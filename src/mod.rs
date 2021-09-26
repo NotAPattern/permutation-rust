@@ -40,20 +40,22 @@ impl Permutation {
   fn get_cycles(&self) -> usize {
     let mut permutation_clone = self.permutation.clone();
     let mut number_of_cycles = 0;
-    for index in 0..(permutation_clone.len() - 1) {
-      let mut start = index;
-      let mut current = index;
+    for index in 0..permutation_clone.len() {
+      let mut current_index = index;
       let mut next = permutation_clone[index];
-      if (next != 0) {
+      if permutation_clone[index] != 0 {
         number_of_cycles += 1;
       }
-      while (start != next) {
-        next = permutation_clone[next];
-        permutation_clone[current] = 0;
-        current = next;
+      while next != 0 {
+        permutation_clone[current_index] = 0;
+        current_index = next - 1;
+        if permutation_clone[next - 1] != 0 {
+          next = permutation_clone[next - 1];
+        } else {
+          next = 0;
+        }
       }
     }
-
     number_of_cycles
   }
 }
@@ -115,7 +117,7 @@ impl Iterator for Permutation {
           }
         }
         self.permutation.swap(i, min);
-        &self.permutation[(i + 1)..length].reverse();
+        self.permutation[(i + 1)..length].reverse();
         // TODO: Change `&mut Vec<usize>` or `Vec<usize>.clone()`?
         return Some(self.permutation.clone());
       }
@@ -174,8 +176,13 @@ mod tests {
   #[test]
   fn test_cycles() {
     let test1 = 3;
+    let test2 = 3;
+    let test3 = 1;
     let perm1 = Permutation::new(&[2, 1, 4, 3, 5]);
-
+    let perm2 = Permutation::new(&[4, 2, 7, 6, 5, 8, 1, 3]);
+    let perm3 = Permutation::new(&[1]);
     assert_eq!(test1, perm1.cycles());
+    assert_eq!(test2, perm2.cycles());
+    assert_eq!(test3, perm3.cycles());
   }
 }
