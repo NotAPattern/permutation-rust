@@ -1,13 +1,16 @@
-//use std::{cell::RefCell, collections::HashMap};
-//#[derive(Debug)]
-
+/// Structure of permutation
 pub struct Permutation {
   // Maybe in furure `T` or `Vec<T>`
+  /// All permutation store in Vec<usize>
   permutation: Vec<usize>,
+  /// Length of permutation
   length: usize,
   // true – even, false – odd
+  /// Parity of permutation. *True* if *even*, *false* if odd
   parity: bool,
+  /// Number of cycles in permutation
   number_of_cycles: usize,
+  /// Number of inversion in permutation
   inversion: usize,
 }
 
@@ -61,7 +64,11 @@ impl Permutation {
 }
 
 impl Permutation {
+  // TODO: maybe `Option<Self>` ?
   pub fn new(array: &[usize]) -> Self {
+    /*if array.len() == 0 {
+      return None;
+    }*/
     let mut return_permutation = Permutation {
       permutation: vec![0],
       length: 0,
@@ -123,66 +130,5 @@ impl Iterator for Permutation {
       }
     }
     None
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  //pub mod Permutation;
-  use super::*;
-  #[test]
-  fn create_permutation_with_vector() {
-    let vector = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let perm = Permutation::new(&vector);
-
-    assert_eq!(vector, *perm.permutation());
-  }
-
-  #[test]
-  fn create_permutation_with_array() {
-    let array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let perm = Permutation::new(&array);
-
-    assert_eq!(array.to_vec(), *perm.permutation());
-  }
-
-  #[test]
-  fn test_invesrion() {
-    let test1 = 5;
-    let test2 = 1;
-    let test3 = 1;
-    let test4 = 0;
-    let perm1 = Permutation::new(&[1, 5, 3, 4, 2, 6]);
-    let perm2 = Permutation::new(&[2, 1, 3, 4, 5]);
-    let perm3 = Permutation::new(&[2, 1]);
-    let perm4 = Permutation::new(&[1]);
-    assert_eq!(test1, perm1.inversion());
-    assert_eq!(test2, perm2.inversion());
-    assert_eq!(test3, perm3.inversion());
-    assert_eq!(test4, perm4.inversion());
-  }
-
-  #[test]
-  fn test_parity() {
-    let test1 = 1;
-    let test2 = -1;
-    let perm1 = Permutation::new(&[1, 5, 4, 3, 2, 6]);
-    let perm2 = Permutation::new(&[2, 1, 3, 4, 5]);
-
-    assert_eq!(test1, perm1.parity());
-    assert_eq!(test2, perm2.parity());
-  }
-
-  #[test]
-  fn test_cycles() {
-    let test1 = 3;
-    let test2 = 3;
-    let test3 = 1;
-    let perm1 = Permutation::new(&[2, 1, 4, 3, 5]);
-    let perm2 = Permutation::new(&[4, 2, 7, 6, 5, 8, 1, 3]);
-    let perm3 = Permutation::new(&[1]);
-    assert_eq!(test1, perm1.cycles());
-    assert_eq!(test2, perm2.cycles());
-    assert_eq!(test3, perm3.cycles());
   }
 }

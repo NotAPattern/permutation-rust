@@ -1,10 +1,11 @@
-pub mod r#mod;
+#[path = "../src/lib.rs"]
+pub mod lib;
 
-use r#mod::Permutation;
+use lib::permutation::Permutation;
 
 fn main() {
   println!("Hello, world!");
-  let vector2 = vec![4, 2, 7, 6, 5, 8, 1, 3];
+  let vector2 = vec![2, 1];
   //let mut iter = vector2.iter();
   let mut perm = Permutation::new(&vector2);
   println!("{:?}", perm.permutation());

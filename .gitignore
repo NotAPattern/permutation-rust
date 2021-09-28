@@ -1,3 +1,12 @@
+# Ignore Rust binary files
 /target
+
+# IDEA & VSCode
 .idea/
+.code
+
+# Vim backup files
 *un~
+
+# Cargo lock file
+Cargo.lock
