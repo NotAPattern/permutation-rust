@@ -1,8 +1,13 @@
 [package]
 name = "permutation"
-version = "0.1.0"
-authors = ["OneTheGraph <nikita.karatsev@gmail.com>"]
+version = "1.0.0"
+authors = ["Nikita Karatsev (NotAPattern) <nikita.karatsev@gmail.com>"]
+description = "Lib for simple algebraic permutation"
 edition = "2018"
+readme = "README.md"
+repository = "https://gitlab.com/NotAPattern/permutation-rust"
+license-file = "LICENSE"
+keywords = ["permutation", "algebra"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
