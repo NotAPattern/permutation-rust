@@ -3,8 +3,6 @@ pub struct Permutation {
   // Maybe in furure `T` or `Vec<T>`
   /// All permutation store in Vec<usize>
   permutation: Vec<usize>,
-  /// Length of permutation
-  length: usize,
   // true – even, false – odd
   /// Parity of permutation. *True* if *even*, *false* if odd
   parity: bool,
@@ -17,10 +15,6 @@ pub struct Permutation {
 impl Permutation {
   fn get_create_permutation(&self, array: &[usize]) -> Vec<usize> {
     array.to_vec()
-  }
-
-  fn get_length(&self) -> usize {
-    self.permutation.len()
   }
 
   fn get_inversion(&self) -> usize {
@@ -36,7 +30,8 @@ impl Permutation {
     inversion
   }
 
-  fn get_parity(&self) -> bool {
+  fn get_parity(&mut self) -> bool {
+    self.inversion = self.get_inversion();
     return if self.inversion % 2 == 0 { true } else { false };
   }
 
@@ -65,19 +60,33 @@ impl Permutation {
 
 impl Permutation {
   // TODO: maybe `Option<Self>` ?
+  /// Create permutation based on slice of `usize`.
+  ///
+  /// Start indexing with 1.
+  ///
+  /// Example:
+  ///   * [1, 2, 3, 4, 5] is **correct** vector,
+  ///   * [0, 1, 2] is **not correct** vector.
+  /// # Example
+  ///   ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![1, 2, 3, 4, 5];
+  ///   let permutation = Permutation::new(&vector);
+  ///
+  ///   assert_eq!(vector, *permutation.permutation());
+  ///   ```
   pub fn new(array: &[usize]) -> Self {
     /*if array.len() == 0 {
       return None;
     }*/
     let mut return_permutation = Permutation {
       permutation: vec![0],
-      length: 0,
       parity: false,
       number_of_cycles: 0,
       inversion: 0,
     };
     return_permutation.permutation = return_permutation.get_create_permutation(array);
-    return_permutation.length = return_permutation.get_length();
     return_permutation.inversion = return_permutation.get_inversion();
     return_permutation.parity = return_permutation.get_parity();
     return_permutation.number_of_cycles = return_permutation.get_cycles();
@@ -85,22 +94,86 @@ impl Permutation {
     return_permutation
   }
 
+  /// Return length of permutation.
+  ///
+  /// # Exapmle
+  /// ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![1, 2, 3, 4, 5];
+  ///   let permutation = Permutation::new(&vector);
+  ///
+  ///   assert_eq!(5, permutation.length());
+  ///
+  /// ```
   pub fn length(&self) -> usize {
-    self.length
+    self.permutation.len()
   }
 
+  /// Return permutation in `Vec<usize>`.
+  ///
+  /// # Example
+  /// ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![1, 2, 3, 4, 5];
+  ///   let permutation = Permutation::new(&vector);
+  ///
+  ///   assert_eq!(vector, *permutation.permutation());
+  ///
+  /// ```
   pub fn permutation(&self) -> &Vec<usize> {
     &self.permutation
   }
 
+  /// Return numer of [inversions](https://en.wikipedia.org/wiki/Permutation#Inversions).
+  /// Example:
+  ///   * [1, 2, 4, 3] have 1 inversion.
+  ///
+  /// # Example
+  /// ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![1, 2, 3, 5, 4];
+  ///   let permutation = Permutation::new(&vector);
+  ///   
+  ///   assert_eq!(1, permutation.inversion());
+  /// ```
   pub fn inversion(&self) -> usize {
     self.inversion
   }
 
+  /// Return [parity](https://en.wikipedia.org/wiki/Permutation#Parity_of_a_permutation) of permutation.
+  /// Return:
+  ///   * 1 – permutation if even,
+  ///   * -1 – permutation if odd.
+  ///
+  /// # Example
+  /// ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![1, 2, 3, 4, 5];
+  ///   let permutation = Permutation::new(&vector);
+  ///   
+  ///   assert_eq!(1, permutation.parity());
   pub fn parity(&self) -> isize {
     return if self.parity { 1 } else { -1 };
   }
 
+  /// Return numer of [cycles](https://en.wikipedia.org/wiki/Permutation#Canonical_cycle_notation).
+  /// Example:
+  ///
+  ///   * [2, 1, 4, 3] have 2 cycles.
+  ///
+  /// # Example
+  /// ```
+  ///   use permutation::permutation::Permutation;
+  ///
+  ///   let vector = vec![2, 1, 4, 3, 5];
+  ///   let permutation = Permutation::new(&vector);
+  ///   
+  ///   assert_eq!(3, permutation.cycles());
+  /// ```
   pub fn cycles(&self) -> usize {
     self.number_of_cycles
   }
@@ -126,9 +199,15 @@ impl Iterator for Permutation {
         self.permutation.swap(i, min);
         self.permutation[(i + 1)..length].reverse();
         // TODO: Change `&mut Vec<usize>` or `Vec<usize>.clone()`?
+        self.inversion = self.get_inversion();
+        self.parity = self.get_parity();
+        self.number_of_cycles = self.get_cycles();
         return Some(self.permutation.clone());
       }
     }
+    self.inversion = self.get_inversion();
+    self.parity = self.get_parity();
+    self.number_of_cycles = self.get_cycles();
     None
   }
 }
