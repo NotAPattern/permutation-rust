@@ -1,6 +1,6 @@
 [package]
 name = "permutation"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Nikita Karatsev (NotAPattern) <nikita.karatsev@gmail.com>"]
 description = "Lib for simple algebraic permutation"
 edition = "2018"

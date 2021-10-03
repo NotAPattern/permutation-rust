@@ -8,7 +8,7 @@ In terminal: `cargo build && cargo run --example main` (without extension)
 # Run tests
 In terminal: `cargo test`
 
-# Generate and run documentation (WIP)
+# Generate and run documentation   
 In terminal: `cargo doc`
 
 Then: `cargo doc --open` open the documentation. 
