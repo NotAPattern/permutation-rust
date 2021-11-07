@@ -4,6 +4,7 @@
 # IDEA & VSCode
 .idea/
 .code
+.vscode
 
 # Vim backup files
 *un~
